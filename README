@@ -1,0 +1,12 @@
+pyfoobar allow control of foobar2000 media player via python and windows COM interface.
+
+Metadata-Version: 1.0
+Name: pyfoobar
+Version: 1.0
+Summary: Using foobar2000 through windows COM Interface
+Home-page: code.google.com/p/pyfoobar/
+Author: Ranveer Raghuwanshi
+Author-email: ranveer.raghu@gmail.com
+License: GNU GPL 2
+
+Project is hosted at code.google.com/p/pyfoobar/

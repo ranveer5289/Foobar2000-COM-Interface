@@ -1,3 +1,9 @@
+#!/usr/bin/python
+# coding=UTF-8
+
+# Copyright (c) 2009, Ranveer Raghuwanshi
+# All rights reserved.
+
 import win32com.client
 import win32gui
 import datetime
