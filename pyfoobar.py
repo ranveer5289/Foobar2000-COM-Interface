@@ -1,8 +1,8 @@
 #!/usr/bin/python
 # coding=UTF-8
 
-# Copyright (c) 2009, Ranveer Raghuwanshi
-# All rights reserved.
+#Copyright (c) 2009, Ranveer Raghuwanshi
+#All rights reserved.
 
 import win32com.client
 import win32gui
@@ -11,18 +11,9 @@ import datetime
 
 ProgID = "Foobar2000.Application.0.7"
 foobar_COM_object = win32com.client.Dispatch(ProgID)
-ClassName = "{E7076D1C-A7BF-4f39-B771-BCBE88F2A2A8}"
 playback = foobar_COM_object.Playback
 
-
 class foobar():
-
-
-        hwnd = None
-
-        def __init__(self):
-               self.hwnd = win32gui.FindWindow(ClassName,None)
-                
 
         def isPlaying(self):
               return playback.IsPlaying
@@ -52,8 +43,8 @@ class foobar():
                return playback.Position
 
         def lengthOfTrack(self):
-                secs = playback.Length
-                return str(datetime.timedelta(seconds = int(secs)))
+                return str(playback.FormatTitle("[%length%]"))
+
 
         def currentVolumeLevel(self):
                 return str(playback.Settings.Volume) + "dB"
@@ -70,44 +61,38 @@ class foobar():
         def currentActivePlaylist(self):
                 return str(foobar_COM_object.Playlists.ActivePlaylist.Name)
 
-        def parseWindowTitle(self):
-                
-                trackinfo = win32gui.GetWindowText(self.hwnd)
-                trackinfo = trackinfo.split('@')
-
-
-                if len(trackinfo) <= 1:
-                        return {'track':None,'artist':None}
-
-
-                try:
-                        track,artist,_ = trackinfo
-
-                except ValueError:
-                        return {'track':None,'artist':None}
-                else:
-                        return {'track':track, 'artist':artist}
-
         def getCurrentTrack(self):
-
-                        track = self.parseWindowTitle()['track']
-
-                        if track is not None:
-                                return track
+                if self.isPlaying():
+                        track = str(playback.FormatTitle("[%title%]"))
+                        if len(track) == 0:
+                                return "check metadata"
                         else:
-                                return "trackname metadata doesn't exist or check if foobar is playing "
+                                return track
+                else:
+                        return "Check foobar running or not"
+
 
         def getCurrentArtist(self):
-                        artist = self.parseWindowTitle()['artist']
-
-                        if artist is not None:
-                                        return artist
+                if self.isPlaying():
+                        artist = str(playback.FormatTitle("[%artist%]"))
+                        if len(artist) == 0:
+                                return "check metadata"
                         else:
-                                        return "artist metadata doesn't exist or check if foobar is playing"
+                                return artist
+                else:
+                        return "Check foobar running or not"
+                
 
-
-        #def getCurrentPlayingAlbum(self):
-        #       return self.parseWindowTitle()['album']
+        def getCurrentAlbum(self):
+                if self.isPlaying():
+                        album = str(playback.FormatTitle("[%album%]"))
+                        if len(album) == 0:
+                                return "check metadata"
+                        else:
+                                return album
+                else:
+                        return "Check foobar running or not"
+                
 
         def isCurrentlyPlaying(self):
                 return 'Currently playing "{0}" by "{1}"'.format(self.getCurrentTrack(),self.getCurrentArtist())
@@ -119,3 +104,4 @@ class foobar():
 if __name__ == "__main()__":
 
         f = foobar()
+
