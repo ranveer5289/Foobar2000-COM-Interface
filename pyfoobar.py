@@ -6,8 +6,6 @@
 
 import win32com.client
 import win32gui
-import datetime
-
 
 ProgID = "Foobar2000.Application.0.7"
 foobar_COM_object = win32com.client.Dispatch(ProgID)
